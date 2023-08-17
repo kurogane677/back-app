@@ -5,12 +5,15 @@ const app = express();
 const users = require("./routes/user");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-app.use(cookieParser());
-app.use(cors());
 
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
 const { createToken, verifyToken, deleteToken } = require("./utils/jwt");
+
+app.use(cookieParser());
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello World");
