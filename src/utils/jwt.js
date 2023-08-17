@@ -56,7 +56,7 @@ const verifyToken = (req, res, next) => {
 
 const deleteToken = (req, res, next) => {
   res
-    .clearCookie("access_token", "refresh_token")
+    .clearCookie("access_token")
     .status(200)
     .json({ message: "Successfully logged out" });
   next();
