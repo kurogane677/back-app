@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:up": "npx sequelize-cli db:migrate",
+    "migrate:generate": "npx sequelize-cli migration:generate",
     "migrate:undo": "npx sequelize-cli db:migrate:undo",
     "model:create": "npx sequelize-cli model:generate",
     "start": "nodemon ./src/index.js",

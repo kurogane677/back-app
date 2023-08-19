@@ -1,7 +1,9 @@
 "use strict";
+
 const { Model, DataTypes, Sequelize } = require("sequelize");
 const path = require("path").resolve("./");
 const config = require(`${path}/config/config`);
+
 const sequelize = new Sequelize(
   config.development.database,
   config.development.username,
@@ -12,9 +14,12 @@ const sequelize = new Sequelize(
     timezone: config.development.timezone,
   }
 );
-const Test = sequelize.define("test", {
-  test: { type: DataTypes.STRING },
-  testa: { type: DataTypes.STRING },
+
+const Item = sequelize.define("item", {
+  item_code: { type: DataTypes.STRING },
+  item_name: { type: DataTypes.STRING },
+  item_price: { type: DataTypes.DOUBLE },
+  item_stock: { type: DataTypes.INTEGER },
 });
 
-module.exports = Test;
+module.exports = Item;
