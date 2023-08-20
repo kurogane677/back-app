@@ -1,5 +1,4 @@
 "use strict";
-
 const { Model, DataTypes, Sequelize } = require("sequelize");
 const path = require("path").resolve("./");
 const config = require(`${path}/config/config`);

@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const users = require("./routes/user");
-const apiKey = require("./utils/apiKey");
+const apiKey = require("./routes/apiKey");
+const { verifyKeys } = require("./utils/apiKey");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
@@ -24,7 +25,8 @@ app.get("/", (req, res) => {
 app.get("/signin", createToken);
 app.get("/signout", deleteToken);
 
-app.use("/apiKey", apiKey);
+app.use("/apikey", verifyToken, apiKey);
+app.use(verifyKeys);
 
 app.use("/users", verifyToken, users);
 

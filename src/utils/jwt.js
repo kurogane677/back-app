@@ -7,7 +7,7 @@ const createToken = (req, res, next) => {
       data: "users",
     },
     "secret",
-    { expiresIn: "1h" }
+    { expiresIn: "1d" }
   );
 
   const refreshToken = jwt.sign(
@@ -29,7 +29,7 @@ const createToken = (req, res, next) => {
       access_token: token,
       refresh_token: refreshToken,
     });
-  next();
+  // next();
 };
 
 const verifyToken = (req, res, next) => {
@@ -37,21 +37,21 @@ const verifyToken = (req, res, next) => {
   if (!token)
     return res.status(403).json({
       success: false,
-      message: "Token expired",
+      message: "Invalid Token",
       date: new Date(),
     });
   // verify a token symmetric
-  jwt.verify(token, "secret", function (err, decoded) {
+  jwt.verify(token, "secret", (err, decoded) => {
     if (err) {
-      res.status(403).json({
+      return res.status(403).json({
         success: false,
-        message: "Invalid Token",
+        message: "Token expired",
         date: new Date(),
       });
     }
+    console.log(`Token verified!`);
+    next();
   });
-  console.log(`Token verified!`);
-  next();
 };
 
 const deleteToken = (req, res, next) => {
@@ -59,7 +59,7 @@ const deleteToken = (req, res, next) => {
     .clearCookie("access_token")
     .status(200)
     .json({ message: "Successfully logged out" });
-  next();
+  // next();
 };
 
 // invalid token - synchronous

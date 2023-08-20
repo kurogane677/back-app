@@ -1,36 +1,22 @@
-const express = require("express");
-const router = express.Router();
 const path = require("path").resolve("./");
 const ApiKey = require(`${path}/database/models/apikey`);
-const { generateApiKey } = require("generate-api-key");
 
-router.post("/", (req, res) => {
-  const { scope, prefix } = req.body;
-  const keys = generateApiKey({ method: "base62", prefix: prefix });
-
-  const prefixCheck = ApiKey.findOne({ where: { name: prefix } });
-
-  prefixCheck == ""
-    ? ApiKey.create({
-        keys: keys,
-        name: prefix,
-        scope: scope,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
-    : ApiKey.update({ keys: keys, scope: scope }, { where: { name: prefix } });
-
-  res.status(200).json({
-    success: true,
-    message: "Success generate Api Key",
-    apikey: keys,
-  });
-});
-
-router.get("/", (req, res) => {
+const verifyKeys = async (req, res, next) => {
   const api_key = req.headers["x-api-key"];
-  console.log(api_key);
-  res.send(200);
-});
+  if (!api_key) return console.log(`Key undefined`);
+  const key = await ApiKey.findAll({ where: { keys: api_key } });
 
-module.exports = router;
+  // console.log(key);
+  if (key != "") {
+    console.log(`Key verified`);
+    next();
+  } else {
+    console.log(`Invalid Key`);
+    res.status(403).json({
+      success: false,
+      message: "Invalid Key",
+    });
+  }
+};
+
+module.exports = { verifyKeys };
