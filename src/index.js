@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const users = require("./routes/user");
+const items = require("./routes/items");
 const apiKey = require("./routes/apiKey");
 const { verifyKeys } = require("./utils/apiKey");
 const cors = require("cors");
@@ -25,10 +26,15 @@ app.get("/", (req, res) => {
 app.get("/signin", createToken);
 app.get("/signout", deleteToken);
 
+//route for key request
 app.use("/apikey", verifyToken, apiKey);
+
+//from here, add api key as header to continue access data
 app.use(verifyKeys);
 
+//routes for each tables
 app.use("/users", verifyToken, users);
+app.use("/item", verifyToken, items);
 
 app.listen(PORT, () => {
   console.log(`Server running at ${HOST}:${PORT}`);

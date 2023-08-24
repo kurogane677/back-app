@@ -1,29 +1,26 @@
 "use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class item_strg_dtl extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+const { Model, DataTypes, Sequelize } = require("sequelize");
+const path = require("path").resolve("./");
+const config = require(`${path}/config/config`);
+
+const sequelize = new Sequelize(
+  config.development.database,
+  config.development.username,
+  config.development.password,
+  {
+    host: config.development.host,
+    dialect: config.development.dialect,
+    timezone: config.development.timezone,
   }
-  item_strg_dtl.init(
-    {
-      item_code: DataTypes.STRING,
-      item_name: DataTypes.STRING,
-      item_qty: DataTypes.INTEGER,
-      item_shelf: DataTypes.STRING,
-      createdBy: DataTypes.STRING,
-      updatedBy: DataTypes.INTEGER,
-    },
-    {
-      sequelize,
-      modelName: "item_strg_dtl",
-    }
-  );
-  return item_strg_dtl;
-};
+);
+
+const ItemStrgDtl = sequelize.define("item_strg_dtl", {
+  item_code: { type: DataTypes.STRING },
+  item_name: { type: DataTypes.STRING },
+  item_qty: { type: DataTypes.INTEGER },
+  item_shelf: { type: DataTypes.STRING },
+  createdBy: { type: DataTypes.STRING },
+  updatedBy: { type: DataTypes.STRING },
+});
+
+module.exports = ItemStrgDtl;

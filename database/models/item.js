@@ -21,4 +21,24 @@ const Item = sequelize.define("item", {
   item_stock: { type: DataTypes.INTEGER },
 });
 
-module.exports = Item;
+const ItemRcvDtl = sequelize.define("item_receive_dtl", {
+  item_code: { type: DataTypes.STRING },
+  item_name: { type: DataTypes.STRING },
+  item_qty: { type: DataTypes.INTEGER },
+  reject_qty: { type: DataTypes.INTEGER },
+  receiver: { type: DataTypes.STRING },
+  receive_date: { type: DataTypes.DATE },
+  createdBy: { type: DataTypes.STRING },
+  updatedBy: { type: DataTypes.STRING },
+});
+
+const ItemStrgDtl = sequelize.define("item_strg_dtl", {
+  item_code: { type: DataTypes.STRING },
+  item_name: { type: DataTypes.STRING },
+  item_qty: { type: DataTypes.INTEGER },
+  item_shelf: { type: DataTypes.STRING },
+  createdBy: { type: DataTypes.STRING },
+  updatedBy: { type: DataTypes.STRING },
+});
+
+module.exports = { Item, ItemRcvDtl, ItemStrgDtl };
