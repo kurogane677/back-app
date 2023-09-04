@@ -34,7 +34,7 @@ app.use(verifyKeys);
 
 //routes for each tables
 app.use("/users", verifyToken, users);
-app.use("/item", verifyToken, items);
+app.use("/items", verifyToken, items);
 
 app.listen(PORT, () => {
   console.log(`Server running at ${HOST}:${PORT}`);

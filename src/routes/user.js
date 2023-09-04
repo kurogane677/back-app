@@ -40,13 +40,14 @@ router.get("/:username", async (req, res) => {
   const user = await User.findAll({ where: { username: req.params.username } });
 
   user == ""
-    ? await res.status(404).json({
+    ? res.status(404).json({
         success: false,
         message: "Invalid username",
       })
-    : await res.status(200).json({
+    : res.status(200).json({
         success: true,
-        message: user,
+        message: "Sucessfully created user",
+        data: { username: req.params.username },
       });
   // res.send("Token created!");
 });
