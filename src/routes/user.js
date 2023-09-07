@@ -55,6 +55,8 @@ router.get("/:username", async (req, res) => {
 
 //METHOD POST
 // =======================================================
+// TODO
+// Untuk mencegah Race Condition, gunakan Pessimistic Lock
 router.post("/add", async (req, res, next) => {
   const { username, password, access } = req.body;
   const user = await User.findOne({ where: { username: username } });
